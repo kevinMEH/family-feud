@@ -1,30 +1,41 @@
 import axios from "axios";
-import Cookies from "js-cookie";
+
+axios.defaults.withCredentials = true;
+
+let root = "http://localhost:3001";
 
 async function postUsername(username) {
-    let response = await axios.post("/api", { username });
+    let response = await axios.post(root + "/api", { username });
     return response.data.success;
 }
 
 async function postPassword(password) {
-    let response = await axios.post("/api", { password });
+    let response = await axios.post(root + "/api", { password });
     return response.data.success;
+}
+
+async function getName() {
+    let response = await axios.post(root + "/api", { asdf:"asdf", get: "name" });
+    return response.data.name;
+}
+
+async function verfUser() {
+    let response = await axios.post(root + "/api", { get: "name" })
+    return response.data.name !== "";
 }
 
 async function verfAdmin() {
-    let token = Cookies.get("token");
-    let response = await axios.post("/api", { token });
-    if(!response.data.success) {
-        Cookies.remove("admin");
-        Cookies.remove("token");
-    }
+    let response = await axios.post(root + "/api", { get: "admin" });
     return response.data.success;
 }
 
+function buzz() {
+    return axios.post(root + "/api", { buzz: "buzz" });
+}
+
 function openAdminConnection() {
-    const websocket = new WebSocket("wss://feud.liao.gg/api/admin");
-    websocket.onopen = () => websocket.send(Cookies.get("token"));
+    const websocket = new WebSocket("ws://localhost:3001/ws");
     return websocket;
 }
 
-export { postUsername, postPassword, verfAdmin, openAdminConnection };
+export { postUsername, postPassword, getName, verfAdmin, verfUser, openAdminConnection, buzz };

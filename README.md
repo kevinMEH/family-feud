@@ -14,6 +14,8 @@ Pressing the button within 5 seconds of another user pressing it will not result
 
 After 5 seconds, the button is available to press again.
 
+The project uses cookie authentication, so don't worry about refreshing the page. You will automatically be redirected back to the admin / play page and your username will be preserved.
+
 ## Building the Project
 
 1. Clone this project:
